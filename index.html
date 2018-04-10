@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>SelectJS</title>
+</head>
+<body>
+<div class="scroll-parent">
+	<select name="data">
+		<option value="potato-chips">Potato chips</option>
+		<option value="chips-and-salsa">Chips and salsa</option>
+		<option value="cookies">Cookies</option>
+		<option value="doritos">Doritos</option>
+		<option value="pringles">Pringles</option>
+		<option value="hot-pockets">Hot pockets</option>
+	</select>
+</div>
+
+<div class="scroll-parent">
+	<select data-select-like-alignement="never" class="drop-select">
+		<option value="potato-chips">Potato chips</option>
+		<option value="chips-and-salsa">Chips and salsa</option>
+		<option value="cookies">Cookies</option>
+		<option value="doritos">Doritos</option>
+		<option value="pringles">Pringles</option>
+		<option value="hot-pockets">Hot pockets</option>
+	</select>
+</div>
+
+<script src="js/jquery-3.1.0.min.js" type="text/javascript"></script>
+<script src="js/select-js.js" type="text/javascript"></script>
+<script type="text/javascript">
+	$('.scroll-parent').selectJS({});
+</script>
+</body>
+</html>
