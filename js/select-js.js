@@ -85,15 +85,20 @@ https://github.com/alexshnur/select-js
 
 		$selectJS.find('option').each(function () {
 			let $option = $(this);
-			$ul.append(
-				$('<li/>', {
-					text: $option.text(),
-					'data-value': $option.attr('value'),
-					'class': classNames.selectJsListItem,
-					'selected': $option.is(':selected'),
-					'disabled': $option.is(':disabled')
-				})
-			);
+			let $li = $('<li/>', {
+				text: $option.text(),
+				'data-value': $option.attr('value'),
+				'class': classNames.selectJsListItem,
+				'selected': $option.is(':selected'),
+				'disabled': $option.is(':disabled')
+			});
+
+			if ($selectJS.is('[multiple]')) {
+				$li.append(
+					$('<i/>', {'class': ($option.is(':selected') ? opts.checkedIcons.on : opts.checkedIcons.off)})
+				);
+			}
+			$ul.append($li);
 			if ($option.is(':selected')) {
 				selectJsText.push($option.text());
 			}
@@ -113,7 +118,11 @@ https://github.com/alexshnur/select-js
 	};
 
 	$.fn.selectJS.defaults = {
-		chooseText: '-- choose --'
+		chooseText: '-- choose --',
+		checkedIcons: {
+			on: 'fa fa-check-square',
+			off: 'fa fa-square'
+		}
 	};
 
 	$.fn.selectJS.debug = function (msg) {
@@ -161,6 +170,7 @@ https://github.com/alexshnur/select-js
 			$this.attr('selected', true);
 		} else {
 			$this.attr('selected', !$this[0].getAttribute('selected'));
+			$this.find('i').toggleClass([opts.checkedIcons.on, opts.checkedIcons.off].join(' '));
 		}
 
 
