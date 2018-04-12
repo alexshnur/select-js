@@ -75,7 +75,8 @@
 	cursor: pointer;
 }
 
-.select-js-list li:hover {
+.select-js-list li:hover,
+.select-js-list li[selected] {
 	background-color: #007bff;
 	color: #ffffff;
 }

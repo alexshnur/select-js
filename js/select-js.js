@@ -30,6 +30,8 @@ https://github.com/alexshnur/select-js
 		selectJsList: 'select-js-list',
 		selectJsListItem: 'select-js-list-item',
 
+		selectJs: 'select-js',
+
 		formControl: 'form-control',
 		open: 'open'
 	};
@@ -65,12 +67,16 @@ https://github.com/alexshnur/select-js
 			});
 		}
 
+		$(this).addClass(classNames.selectJs);
+
 		let selectJS = this;
 		let $selectJS = $(this).find('select');
 		let $divSelect = $('<div/>', {'class': classNames.selectJsContainer});
 		let $selected = $('<span/>', {'class': [classNames.selectJsSelect, classNames.formControl].join(' ')});
-		let $input = $('<input/>', {'type': 'hidden', name: $selectJS.attr('name') || ''});
 		let $ul = $('<ul/>', {'class': [classNames.selectJsList, selectors.dropdownMenu].join(' ')});
+
+		let selectJsText = [];
+		let selectJsValues = [];
 
 		$ul.attr('multiple', $selectJS[0].getAttribute('multiple'));
 
@@ -78,18 +84,18 @@ https://github.com/alexshnur/select-js
 			let $option = $(this);
 			if (!$option.is(':disabled')) {
 				$ul.append(
-					$('<li/>', {text: $option.text(), 'data-value': $option.attr('value'), 'class': classNames.selectJsListItem})
+					$('<li/>', {text: $option.text(), 'data-value': $option.attr('value'), 'class': classNames.selectJsListItem, 'selected': $option.is(':selected')})
 				);
 			}
 			if ($option.is(':selected') || $option.is(':disabled')) {
-				$selected.text($option.text());
-				$input.val($option.text());
+				selectJsText.push($option.text());
 			}
 		});
 
+		$selected.text(selectJsText.join(', '));
+
 
 		$divSelect
-			.append($input)
 			.append($selected)
 			.append($ul);
 		$divSelect.insertAfter($selectJS);
@@ -122,25 +128,33 @@ https://github.com/alexshnur/select-js
 
 	$(document).on('click', selectors.selectJsListItem, function(){
 		let $this = $(this);
-		let $selectJsContainer = $this.closest(selectors.selectJsContainer);
-		let $selectJsSelect = $selectJsContainer.find(selectors.selectJsSelect);
-		let $selectJsList = $selectJsContainer.find(selectors.selectJsList);
+		let $selectJs = $this.closest(selectors.selectJs);
+		let $selectJsSelect = $selectJs.find(selectors.selectJsSelect);
+		let $selectJsList = $selectJs.find(selectors.selectJsList);
+		let $select = $selectJs.find('select');
 
 		let selectText = [];
+		let selectValues = [];
 
 		let $lis = $selectJsList.find('li');
 
 		if (!$selectJsList.is('[multiple]')) {
-			$lis.prop('selected', false);
+			$lis.removeAttr('selected');
+			$this.attr('selected', true);
+		} else {
+			$this.attr('selected', !$this[0].getAttribute('selected'));
 		}
-		$this.prop('selected', true);
+
 
 		$lis.each(function(){
 			let $li = $(this);
-			if ($li.is(':selected')) {
+			if ($li[0].getAttribute('selected')) {
 				selectText.push($li.text());
+				selectValues.push($li.attr('data-value'));
 			}
 		});
+
+		$select.val(selectValues);
 
 		$selectJsSelect.text(selectText.join(', '));
 	});
