@@ -1,10 +1,10 @@
-/*global $:false, jQuery:false*/
+/*global $:false, jQuery:false, window:false, document:false*/
 /*
 Drag & Drop Table Columns v.0.0.1
 by Oleksandr Nikitin (a.nikitin@i.ua)
 https://github.com/alexshnur/select-js
 */
-(function(){
+(function () {
 	window.sjs = {};
 
 	let buildSelectors = function (selectors, source, characterToPrependWith) {
@@ -40,7 +40,7 @@ https://github.com/alexshnur/select-js
 
 	let selectors = sjs.buildSelectors(classNames, ids);
 
-	let closeListSelect = function($_this) {
+	let closeListSelect = function ($_this) {
 		let $selectJsSelect = $(selectors.selectJsSelect);
 		if ($selectJsSelect.hasClass(classNames.open)) {
 			if ($_this) {
@@ -55,7 +55,7 @@ https://github.com/alexshnur/select-js
 		return;
 	}
 
-	$.fn.selectJS = function(options){
+	$.fn.selectJS = function (options) {
 		if (this.length === 0) {
 			$.fn.selectJS.debug('No element found for "' + this.selector + '".');
 			return this;
@@ -73,24 +73,32 @@ https://github.com/alexshnur/select-js
 		let $selectJS = $(this).find('select');
 		let $divSelect = $('<div/>', {'class': classNames.selectJsContainer});
 		let $selected = $('<span/>', {'class': [classNames.selectJsSelect, classNames.formControl].join(' ')});
-		let $ul = $('<ul/>', {'class': [classNames.selectJsList, selectors.dropdownMenu].join(' ')});
+		let $ul = $('<ul/>', {'class': [classNames.selectJsList].join(' ')});
 
 		let selectJsText = [];
-		let selectJsValues = [];
+
+		let opts = $.extend(true, {}, $.fn.selectJS.defaults, options);
 
 		$ul.attr('multiple', $selectJS[0].getAttribute('multiple'));
 
-		$selectJS.find('option').each(function(){
+		$selectJS.find('option').each(function () {
 			let $option = $(this);
-			if (!$option.is(':disabled')) {
-				$ul.append(
-					$('<li/>', {text: $option.text(), 'data-value': $option.attr('value'), 'class': classNames.selectJsListItem, 'selected': $option.is(':selected')})
-				);
-			}
-			if ($option.is(':selected') || $option.is(':disabled')) {
+			$ul.append(
+				$('<li/>', {
+					text: $option.text(),
+					'data-value': $option.attr('value'),
+					'class': classNames.selectJsListItem,
+					'selected': $option.is(':selected')
+				})
+			);
+			if ($option.is(':selected')) {
 				selectJsText.push($option.text());
 			}
 		});
+
+		if (selectJsText.length === 0) {
+			selectJsText.push(opts.chooseText);
+		}
 
 		$selected.text(selectJsText.join(', '));
 
@@ -101,16 +109,19 @@ https://github.com/alexshnur/select-js
 		$divSelect.insertAfter($selectJS);
 	};
 
-	$.fn.selectJS.defaults = {};
-
-	$.fn.selectJS.debug = function (msg) {
+	$.fn.selectJS.defaults = {
+		chooseText: '-- choose --'
 	};
 
-	$(document).on('click', function(){
+	$.fn.selectJS.debug = function (msg) {
+		console.error(msg);
+	};
+
+	$(document).on('click', function () {
 		closeListSelect();
 	});
 
-	$(document).on('click', selectors.selectJsSelect, function(e){
+	$(document).on('click', selectors.selectJsSelect, function (e) {
 		let $this = $(this);
 
 		closeListSelect($this);
@@ -126,7 +137,7 @@ https://github.com/alexshnur/select-js
 		return false;
 	});
 
-	$(document).on('click', selectors.selectJsListItem, function(){
+	$(document).on('click', selectors.selectJsListItem, function () {
 		let $this = $(this);
 		let $selectJs = $this.closest(selectors.selectJs);
 		let $selectJsSelect = $selectJs.find(selectors.selectJsSelect);
@@ -146,7 +157,7 @@ https://github.com/alexshnur/select-js
 		}
 
 
-		$lis.each(function(){
+		$lis.each(function () {
 			let $li = $(this);
 			if ($li[0].getAttribute('selected')) {
 				selectText.push($li.text());
