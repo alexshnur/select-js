@@ -40,6 +40,8 @@ https://github.com/alexshnur/select-js
 
 	let selectors = sjs.buildSelectors(classNames, ids);
 
+	let opts = {};
+
 	let closeListSelect = function ($_this) {
 		let $selectJsSelect = $(selectors.selectJsSelect);
 		if ($selectJsSelect.hasClass(classNames.open)) {
@@ -77,7 +79,7 @@ https://github.com/alexshnur/select-js
 
 		let selectJsText = [];
 
-		let opts = $.extend(true, {}, $.fn.selectJS.defaults, options);
+		opts = $.extend(true, {}, $.fn.selectJS.defaults, options);
 
 		$ul.attr('multiple', $selectJS[0].getAttribute('multiple'));
 
@@ -88,7 +90,8 @@ https://github.com/alexshnur/select-js
 					text: $option.text(),
 					'data-value': $option.attr('value'),
 					'class': classNames.selectJsListItem,
-					'selected': $option.is(':selected')
+					'selected': $option.is(':selected'),
+					'disabled': $option.is(':disabled')
 				})
 			);
 			if ($option.is(':selected')) {
@@ -138,6 +141,10 @@ https://github.com/alexshnur/select-js
 	});
 
 	$(document).on('click', selectors.selectJsListItem, function () {
+		if (this.getAttribute('disabled')) {
+			return;
+		}
+
 		let $this = $(this);
 		let $selectJs = $this.closest(selectors.selectJs);
 		let $selectJsSelect = $selectJs.find(selectors.selectJsSelect);
@@ -166,6 +173,10 @@ https://github.com/alexshnur/select-js
 		});
 
 		$select.val(selectValues);
+
+		if (selectText.length === 0) {
+			selectText.push(opts.chooseText);
+		}
 
 		$selectJsSelect.text(selectText.join(', '));
 	});

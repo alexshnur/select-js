@@ -80,3 +80,9 @@
 	background-color: #007bff;
 	color: #ffffff;
 }
+
+.select-js-list li:disabled,
+.select-js-list li[disabled] {
+	background-color: #efefef;
+	color: #afafaf;
+}
