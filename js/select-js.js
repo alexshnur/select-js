@@ -1,6 +1,6 @@
 /*global $:false, jQuery:false, window:false, document:false*/
 /*
-Drag & Drop Table Columns v.0.0.1
+Select JS v.0.0.1
 by Oleksandr Nikitin (a.nikitin@i.ua)
 https://github.com/alexshnur/select-js
 */
