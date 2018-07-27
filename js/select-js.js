@@ -30,6 +30,8 @@ https://github.com/alexshnur/select-js
 		selectJsList: 'select-js-list',
 		selectJsListItem: 'select-js-list-item',
 
+		selectContainer: 'select-container',
+
 		selectJs: 'select-js',
 
 		formControl: 'form-control',
@@ -80,6 +82,8 @@ https://github.com/alexshnur/select-js
 		let selectJsText = [];
 
 		opts = $.extend(true, {}, $.fn.selectJS.defaults, options);
+
+		$(selectJS).addClass(classNames.selectContainer);
 
 		$ul.attr('multiple', $selectJS[0].getAttribute('multiple'));
 
