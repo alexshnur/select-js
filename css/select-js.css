@@ -1,5 +1,5 @@
 .select-container select {
-	display: none;
+	display: none !important;
 }
 
 .select-js-select {
@@ -8,11 +8,14 @@
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	overflow: hidden;
-	padding-right: 30px;
+	padding-right: 40px !important;
+	min-width: 100%;
+	width: calc(100% - 40px);
 }
 
 .select-js-container {
 	position: relative;
+	text-align: left;
 }
 
 .select-js-select:after {
@@ -36,7 +39,6 @@
 	left: 0;
 	z-index: 1000;
 	float: left;
-	min-width: 10rem;
 	padding: 0;
 	margin: 0;
 	font-size: 1rem;
@@ -45,17 +47,23 @@
 	background-color: #ffffff;
 	background-clip: padding-box;
 	border: 1px solid rgba(0,0,0,.15);
-	border-radius: .25rem;
+	border-radius: 0;
 	max-height: 20vh;
 	overflow-x: hidden;
 	overflow-y: auto;
+	/*width: 100%;*/
+	min-width: 10rem;
+	/*min-width: 300px;*/
+	/*max-width: 20rem;*/
+}
+
+.list-w-100 .select-js-list {
 	width: 100%;
 }
 
 .select-js-select.open + .select-js-list {
 	display: block;
 	position: absolute;
-	transform: translate3d(0px, 38px, 0px);
 	top: 0;
 	left: 0;
 	will-change: transform;
@@ -67,16 +75,29 @@
 	justify-content: space-between;
 	align-content: center;
 	width: 100%;
-	padding: .25rem 1.5rem;
+	padding: .25rem 0;
 	clear: both;
 	font-weight: 400;
 	color: #212529;
 	text-align: inherit;
-	white-space: nowrap;
+	/*white-space: nowrap;*/
 	background-color: transparent;
 	border: 0;
 	cursor: pointer;
+}
+
+.select-js-list li span {
+	display: block;
+	white-space: nowrap;
 	width: 100%;
+	margin-left: 1.5rem;
+	margin-right: 1.5rem;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.select-js-list li i {
+	/*margin-left: 1.5rem;*/
+	margin-right: 1.5rem;
 }
 
 .select-js-list li:hover,
